@@ -1,5 +1,5 @@
 {
-  "name": "calculatrice-test",
+  "name": "Workshop-client",
   "version": "1.0.0",
   "description": "docker compose -f docker-compose.yml build",
   "main": "index.js",
@@ -9,15 +9,15 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Haykes/Calculator-test.git"
+    "url": "git+https://github.com/Haykes/Workshop-client"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Haykes/Calculator-test/issues"
+    "url": "https://github.com/Haykes/Workshop-client/issues"
   },
-  "homepage": "https://github.com/Haykes/Calculator-test#readme",
+  "homepage": "https://github.com/Haykes/Workshop-client#readme",
   "devDependencies": {
     "@playwright/test": "^1.51.0",
     "@types/node": "^22.13.10"

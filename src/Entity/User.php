@@ -24,9 +24,6 @@ class User
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $createdAt;
-
     public function getId(): int
     {
         return $this->id;
@@ -75,15 +72,5 @@ class User
     public function setPassword(string $password): void
     {
         $this->password = $password;
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void
-    {
-        $this->createdAt = $createdAt;
     }
 }

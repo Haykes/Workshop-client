@@ -64,8 +64,8 @@ RUN ./docker/php/install-composer.sh
 # Expose port 9000 and start php-fpm server
 EXPOSE 9000
 
-# Run entrypoint
-COPY ./docker/php/entrypoint.sh /usr/bin/docker-entrypoint
-RUN ["chmod", "+x", "/usr/bin/docker-entrypoint"]
+## Run entrypoint
+#COPY ./docker/php/entrypoint.sh /usr/bin/docker-entrypoint
+#RUN ["chmod", "+x", "/usr/bin/docker-entrypoint"]
 
-CMD [ "docker-entrypoint" ]
+#CMD [ "docker-entrypoint" ]

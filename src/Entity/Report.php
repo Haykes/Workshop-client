@@ -5,15 +5,16 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
-class Field
+class Report
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private string $label;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false)]
+    private User $user;
 
     public function getId(): int
     {
@@ -25,13 +26,13 @@ class Field
         $this->id = $id;
     }
 
-    public function getLabel(): string
+    public function getUser(): User
     {
-        return $this->label;
+        return $this->user;
     }
 
-    public function setLabel(string $label): void
+    public function setUser(User $user): void
     {
-        $this->label = $label;
+        $this->user = $user;
     }
 }
