@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity()]
 class Role
@@ -14,6 +15,10 @@ class Role
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $label;
+
+    #[ORM\OneToMany(targetEntity: RoleUser::class, mappedBy: 'role')]
+    private Collection $roleUsers;
+
 
     public function getId(): int
     {

@@ -6,16 +6,21 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use App\Dto\UserOutput;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity()]
+#[ORM\Table(name: 'app_user')]
 #[ApiResource(
     operations: [
         new GetCollection(output: UserOutput::class),
         new Get(output: UserOutput::class)
     ]
 )]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -33,6 +38,14 @@ class User
 
     #[ORM\Column(type: 'string', length: 255)]
     private string $password;
+
+    #[ORM\OneToMany(targetEntity: RoleUser::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private Collection $roleUsers;
+
+    public function __construct()
+    {
+        $this->roleUsers = new ArrayCollection();
+    }
 
     public function getId(): int
     {
@@ -82,5 +95,32 @@ class User
     public function setPassword(string $password): void
     {
         $this->password = $password;
+    }
+
+    public function getRoles(): array
+    {
+        $roles = [];
+
+        foreach ($this->roleUsers as $roleUser) {
+            $roles[] = $roleUser->getRole()->getLabel();
+        }
+
+        $roles[] = 'ROLE_USER'; // minimum
+        return array_unique($roles);
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Rien pour l’instant
+    }
+
+    public function getRoleUsers(): Collection
+    {
+        return $this->roleUsers;
     }
 }

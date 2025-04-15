@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250414124536 extends AbstractMigration
+final class Version20250415135338 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,6 +20,8 @@ final class Version20250414124536 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('CREATE TABLE app_user (id SERIAL NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_88BDF3E9E7927C74 ON app_user (email)');
         $this->addSql('CREATE TABLE field (id SERIAL NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE field_option (id SERIAL NOT NULL, field_id INT NOT NULL, label VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_70C28CB2443707B0 ON field_option (field_id)');
@@ -34,14 +36,12 @@ final class Version20250414124536 extends AbstractMigration
         $this->addSql('CREATE TABLE role_user (user_id INT NOT NULL, role_id INT NOT NULL, PRIMARY KEY(user_id, role_id))');
         $this->addSql('CREATE INDEX IDX_332CA4DDA76ED395 ON role_user (user_id)');
         $this->addSql('CREATE INDEX IDX_332CA4DDD60322AC ON role_user (role_id)');
-        $this->addSql('CREATE TABLE "user" (id SERIAL NOT NULL, first_name VARCHAR(255) NOT NULL, last_name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
         $this->addSql('ALTER TABLE field_option ADD CONSTRAINT FK_70C28CB2443707B0 FOREIGN KEY (field_id) REFERENCES field (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE report ADD CONSTRAINT FK_C42F7784A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE report ADD CONSTRAINT FK_C42F7784A76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE report_entry ADD CONSTRAINT FK_13D9A094BD2A4C0 FOREIGN KEY (report_id) REFERENCES report (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE report_entry ADD CONSTRAINT FK_13D9A09443707B0 FOREIGN KEY (field_id) REFERENCES field (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE report_entry ADD CONSTRAINT FK_13D9A0942C79BE5 FOREIGN KEY (field_option_id) REFERENCES field_option (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE role_user ADD CONSTRAINT FK_332CA4DDA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE role_user ADD CONSTRAINT FK_332CA4DDA76ED395 FOREIGN KEY (user_id) REFERENCES app_user (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE role_user ADD CONSTRAINT FK_332CA4DDD60322AC FOREIGN KEY (role_id) REFERENCES role (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -56,12 +56,12 @@ final class Version20250414124536 extends AbstractMigration
         $this->addSql('ALTER TABLE report_entry DROP CONSTRAINT FK_13D9A0942C79BE5');
         $this->addSql('ALTER TABLE role_user DROP CONSTRAINT FK_332CA4DDA76ED395');
         $this->addSql('ALTER TABLE role_user DROP CONSTRAINT FK_332CA4DDD60322AC');
+        $this->addSql('DROP TABLE app_user');
         $this->addSql('DROP TABLE field');
         $this->addSql('DROP TABLE field_option');
         $this->addSql('DROP TABLE report');
         $this->addSql('DROP TABLE report_entry');
         $this->addSql('DROP TABLE role');
         $this->addSql('DROP TABLE role_user');
-        $this->addSql('DROP TABLE "user"');
     }
 }
