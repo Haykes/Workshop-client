@@ -2,9 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Dto\ReportOutput;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
+#[ApiResource(
+    operations: [
+        new GetCollection(output: ReportOutput::class),
+        new Get(output: ReportOutput::class)
+    ]
+)]
 class Report
 {
     #[ORM\Id]

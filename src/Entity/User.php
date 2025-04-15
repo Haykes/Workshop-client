@@ -2,9 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Dto\UserOutput;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity()]
+#[ApiResource(
+    operations: [
+        new GetCollection(output: UserOutput::class),
+        new Get(output: UserOutput::class)
+    ]
+)]
 class User
 {
     #[ORM\Id]
