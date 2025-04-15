@@ -48,17 +48,30 @@ Le projet respecte les contraintes serveur AC2D et est déployé via **Docker** 
 
 - **Docker & Docker Compose** installés
 - **Make** installé
+  (possible de l'installer avec chocolatey via) :
+
+```bash
+choco install make
+```
 
 ### 2️⃣ Installation du projet
 
 ```bash
 # Cloner le projet
-git clone <url-du-repo>
+git clone https://github.com/Haykes/Workshop-client
 cd Workshop-client
 
 # Construire et démarrer les containers Docker
-# Installer les dépendances Composer
 make install
+
+# Accéder au container php pour installer la suite
+make bash
+
+# Appliquer la migration vers la base de donnée
+php bin/console doctrine:migration:migrate
+
+# Commande pour alimenter la base de donnée via le fichier d'import 
+php bin/console app:import-excel public/Import/import_file.xlsx
 
 # Vider le cache Symfony
 make cc
@@ -72,7 +85,11 @@ make cc
 
 L'interface est disponible à l'adresse suivante :
 
-> 📌 **http://localhost:8075**
+> 📌 **http://localhost:8075/**
+
+L'interface Api est disponible à l'adresse suivante :
+
+> 📌 **http://localhost:8075/api**
 
 La barre de debug Symfony est activée si l'environnement est `dev`.
 
